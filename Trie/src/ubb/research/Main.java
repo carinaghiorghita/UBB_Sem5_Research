@@ -1,15 +1,17 @@
 package ubb.research;
 
 import ubb.research.Model.Trie;
+import ubb.research.Tests.Tests;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Trie trie = new Trie();
+    private static void runTests(){
+        Tests tests = new Tests();
+        tests.run();
+    }
 
-        trie.insert("their");
-        trie.insert("there");
-        trie.insert("bye");
+    public static void main(String[] args) {
+        runTests();
 
 
     }
