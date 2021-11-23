@@ -15,26 +15,21 @@ public class Trie {
         while (currentIndex<length){
             var currentChar = key.charAt(currentIndex);
 
-            if(currentNode.getChildren().isEmpty()){
-                currentNode.getChildren().add(new Node(currentChar));
-                currentNode = currentNode.getChildren().get(0);
-            }
-            else {
-                var children = currentNode.getChildren();
-                var isFound = false;
+            var children = currentNode.getChildren();
+            var isFound = false;
 
-                for(Node node : children)
-                    if(node.getValue() == currentChar){
-                        isFound = true;
-                        currentNode = node;
-                        break;
-                    }
-                if(!isFound){
-                    var newNode = new Node(currentChar);
-                    currentNode.getChildren().add(newNode);
-                    currentNode = newNode;
+            for(Node node : children)
+                if(node.getValue() == currentChar){
+                    isFound = true;
+                    currentNode = node;
+                    break;
                 }
+            if(!isFound){
+                var newNode = new Node(currentChar);
+                currentNode.getChildren().add(newNode);
+                currentNode = newNode;
             }
+
             currentIndex++;
         }
 
