@@ -37,6 +37,5 @@ public class Main {
         runTests();
 
         Trie trie = loadTrieFromFile("src/ubb/research/Resources/keys.txt");
-        System.out.println(trie);
     }
 }

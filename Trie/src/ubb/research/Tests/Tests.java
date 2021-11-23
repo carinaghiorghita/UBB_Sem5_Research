@@ -11,6 +11,7 @@ public class Tests {
     public void run(){
         testInsert();
         testSearch();
+        testGetByPrefix();
     }
 
     private void testInsert() {
@@ -63,5 +64,26 @@ public class Tests {
         assert trie.search("");
 
         System.out.println("Finish Test Search\n");
+    }
+
+    private void testGetByPrefix(){
+        System.out.println("Test Get by Prefix");
+
+        Trie trie = new Trie();
+
+        trie.insert("chin");
+        trie.insert("check");
+        trie.insert("cheque");
+        trie.insert("good");
+
+        assert trie.getByPrefix("c").size() == 3;
+        assert trie.getByPrefix("ch").size() == 3;
+        assert trie.getByPrefix("che").size() == 2;
+        assert trie.getByPrefix("chin").size() == 1;
+        assert trie.getByPrefix("cha").size() == 0;
+        assert trie.getByPrefix("a").size() == 0;
+        assert trie.getByPrefix("").size() == 4;
+
+        System.out.println("Finish Test Get by Prefix\n");
     }
 }
