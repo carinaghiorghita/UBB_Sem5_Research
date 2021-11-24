@@ -4,42 +4,112 @@ import ubb.research.Model.Trie;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static ubb.research.Utils.AlgorithmUtils.getLED;
 
 public class SpellCheck {
     private Trie dictionary;
 
-    public SpellCheck(Trie dictionary){
+    public SpellCheck(Trie dictionary) {
         this.dictionary = dictionary;
     }
 
-    public String autocorrect(String phrase){
+    public String autocorrect(String phrase, boolean manualChoice) {
         String[] words = phrase.split(" ");
         List<String> autocorrectedPhrase = new ArrayList<>();
 
-        for(String word : words){
-            String newWord = autocomplete(word);
-            //word = addWhiteSpace(word);
-            //word = getByLED(word);
-            autocorrectedPhrase.add(newWord);
+        for (String word : words) {
+            word = autocomplete(word, manualChoice);
+            word = addWhitespace(word, manualChoice);
+            word = getByLED(word,2, manualChoice);
+            autocorrectedPhrase.add(word);
         }
 
         return String.join(" ", autocorrectedPhrase);
     }
 
-    public String autocomplete(String word){
-        System.out.println("Autocomplete: "+word);
+    public String autocomplete(String word, boolean manualChoice) {
         List<String> suggestedWords = new ArrayList<>(dictionary.getByPrefix(word));
 
-        for(var i=0;i<suggestedWords.size();++i){
-            System.out.println((i+1)+". "+suggestedWords.get(i));
+        if(manualChoice) {
+            System.out.println("Autocomplete: " + word);
+
+            for (var i = 0; i < suggestedWords.size(); ++i) {
+                System.out.println((i + 1) + ". " + suggestedWords.get(i));
+            }
+            System.out.println("0. " + word);
+            System.out.println("Your choice for autocompleting this word:");
+
+            int option = new Scanner(System.in).nextInt();
+
+            if (option == 0)
+                return word;
+            return suggestedWords.get(option - 1);
         }
-        System.out.println("0. "+word);
-        System.out.println("Your choice for autocompleting this word:");
+        suggestedWords.add(word);
+        return suggestedWords.get(0);
+    }
 
-        int option = new Scanner(System.in).nextInt();
+    public String addWhitespace(String word, boolean manualChoice) {
+        List<String> suggestedWords = new ArrayList<>();
 
-        if(option == 0)
+        for (var i = 1; i < word.length() - 1; ++i) {
+            String firstSubstring = word.substring(0, i);
+            String secondSubstring = word.substring(i);
+            if (dictionary.search(firstSubstring) && dictionary.search(secondSubstring))
+                suggestedWords.add(firstSubstring + " " + secondSubstring);
+        }
+
+        if(manualChoice) {
+            System.out.println("Add whitespace: "+word);
+
+            for (var i = 0; i < suggestedWords.size(); ++i) {
+                System.out.println((i + 1) + ". " + suggestedWords.get(i));
+            }
+
+            System.out.println("0. " + word);
+            System.out.println("Your choice for adding whitespace to this word:");
+
+            int option = new Scanner(System.in).nextInt();
+
+            if (option == 0)
+                return word;
+            return suggestedWords.get(option - 1);
+        }
+        suggestedWords.add(word);
+        return suggestedWords.get(0);
+    }
+
+    public String getByLED(String word, int maxLED, boolean manualChoice) {
+        if (maxLED == 0)
             return word;
-        return suggestedWords.get(option-1);
+
+        List<String> suggestions = new ArrayList<>();
+        Set<String> wordsInDictionary = dictionary.getAllWords();
+
+        for(String wordInDictionary : wordsInDictionary){
+            if(getLED(word,wordInDictionary) <= maxLED)
+                suggestions.add(wordInDictionary);
+        }
+
+        if(manualChoice) {
+            System.out.println("Suggest word using Levenshtein Edit Distance (max "+maxLED+"): "+word);
+
+            for (var i = 0; i < suggestions.size(); ++i) {
+                System.out.println((i + 1) + ". " + suggestions.get(i));
+            }
+
+            System.out.println("0. " + word);
+            System.out.println("Your choice after getting suggestions based on Levenshtein Edit Distance:");
+
+            int option = new Scanner(System.in).nextInt();
+
+            if (option == 0)
+                return word;
+            return suggestions.get(option - 1);
+        }
+        suggestions.add(word);
+        return suggestions.get(0);
     }
 }

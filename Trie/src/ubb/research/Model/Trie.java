@@ -103,6 +103,9 @@ public class Trie {
         return wordsWithPrefix;
     }
 
+    public Set<String> getAllWords(){
+        return traverse(root,"");
+    }
 
     public Node getRoot() {
         return root;

@@ -10,39 +10,24 @@ public class AlgorithmUtils {
     /**
      * get Levenshtein Edit Distance between two words
      */
-    public static int led(String word1, String word2) {
-        char[] wordArr1 = (' ' + word1).toCharArray();
-        char[] wordArr2 = (' ' + word2).toCharArray();
-        int[][] matrix = new int[wordArr1.length][wordArr2.length];
-        IntStream.range(1, matrix.length).forEach(i -> matrix[i][0] = i);
-        IntStream.range(1, matrix[0].length).forEach(j -> matrix[0][j] = j);
-        for (int i = 1; i < matrix.length; i++) {
-            for (int j = 1; j < matrix[i].length; j++) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-                if (wordArr1[i] != wordArr2[j]) {
-                    matrix[i][j] = min(matrix[i][j], matrix[i - 1][j], matrix[i][j - 1]) + 1;
-                }
-            }
+    public static int getLED(String word1, String word2){
+        if (word1.isEmpty()) {
+            return word2.length();
         }
-        return matrix[word1.length()][word2.length()];
+
+        if (word2.isEmpty()) {
+            return word1.length();
+        }
+
+        int substitution = getLED(word1.substring(1), word2.substring(1))
+                + costOfSubstitution(word1.charAt(0), word2.charAt(0));
+        int insertion = getLED(word1, word2.substring(1)) + 1;
+        int deletion = getLED(word1.substring(1), word2) + 1;
+
+        return Math.min(Math.min(substitution, insertion), deletion);
     }
 
-    public static <T> T min(Collection<T> ts, Comparator<? super T> comparator) {
-        if (ts.size() == 0) {
-            return null;
-        }
-        Iterator<T> iterator = ts.iterator();
-        T min = iterator.next();
-        while (iterator.hasNext()) {
-            T t = iterator.next();
-            if (comparator.compare(t, min) < 0) {
-                min = t;
-            }
-        }
-        return min;
-    }
-
-    public static <T extends Comparable<? super T>> T min(T... ts) {
-        return min((T) Arrays.asList(ts));
+    public static int costOfSubstitution(char a, char b) {
+        return a == b ? 0 : 1;
     }
 }

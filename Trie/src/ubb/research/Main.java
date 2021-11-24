@@ -39,6 +39,7 @@ public class Main {
         //runTests();
 
         Trie trie = loadTrieFromFile("src/ubb/research/Resources/keys_small_test.txt");
+        System.out.println(trie.getAllWords());
 
         SpellCheck spellCheck = new SpellCheck(trie);
 
@@ -48,9 +49,17 @@ public class Main {
         do{
             System.out.println("Enter phrase or \"exit\":");
             phrase = scanner.nextLine();
-
             if(phrase.equals("exit")) return;
-            System.out.println(spellCheck.autocorrect(phrase));
+
+            System.out.println("1. Pick suggestions manually");
+            System.out.println("2. Automatically get closest suggestion");
+            int option = new Scanner(System.in).nextInt();
+
+            switch (option) {
+                case 1 -> System.out.println(spellCheck.autocorrect(phrase, true));
+                case 2 -> System.out.println(spellCheck.autocorrect(phrase, false));
+                default -> System.out.println("Invalid option");
+            }
         }
         while (true);
     }
