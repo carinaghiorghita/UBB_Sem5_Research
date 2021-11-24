@@ -8,13 +8,13 @@ public class Node {
     private boolean isEndOfWord;
     private List<Node> children;
 
-    public Node(){
+    public Node() {
         this.value = Character.MIN_VALUE;
         this.isEndOfWord = false;
         this.children = new ArrayList<>();
     }
 
-    public Node(char value){
+    public Node(char value) {
         this.value = value;
         this.isEndOfWord = false;
         this.children = new ArrayList<>();
@@ -35,4 +35,5 @@ public class Node {
     public void setEndOfWord(boolean endOfWord) {
         isEndOfWord = endOfWord;
     }
+
 }

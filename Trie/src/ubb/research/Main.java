@@ -1,11 +1,13 @@
 package ubb.research;
 
+import ubb.research.Algorithms.SpellCheck;
 import ubb.research.Model.Trie;
 import ubb.research.Tests.Tests;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -34,8 +36,22 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        runTests();
+        //runTests();
 
-        Trie trie = loadTrieFromFile("src/ubb/research/Resources/keys.txt");
+        Trie trie = loadTrieFromFile("src/ubb/research/Resources/keys_small_test.txt");
+
+        SpellCheck spellCheck = new SpellCheck(trie);
+
+        Scanner scanner = new Scanner(System.in);
+        String phrase;
+
+        do{
+            System.out.println("Enter phrase or \"exit\":");
+            phrase = scanner.nextLine();
+
+            if(phrase.equals("exit")) return;
+            System.out.println(spellCheck.autocorrect(phrase));
+        }
+        while (true);
     }
 }

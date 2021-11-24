@@ -2,6 +2,8 @@ package ubb.research.Model;
 
 import java.util.*;
 
+import static ubb.research.Utils.TrieUtils.traverse;
+
 public class Trie {
     private Node root;
 
@@ -101,23 +103,6 @@ public class Trie {
         return wordsWithPrefix;
     }
 
-    private Set<String> traverse(Node node, String word){
-        if(node.getChildren().isEmpty()) {
-            if (node.isEndOfWord()) {
-                var list = new HashSet<String>();
-                list.add(word);
-                return list;
-            } else return new HashSet<>();
-        }
-
-        var results = new HashSet<String>();
-
-        for(Node child : node.getChildren()){
-            results.addAll(traverse(child, word + Character.toLowerCase(child.getValue())));
-        }
-
-        return results;
-    }
 
     public Node getRoot() {
         return root;

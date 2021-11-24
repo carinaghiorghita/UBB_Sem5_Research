@@ -21,6 +21,7 @@ public class Tests {
 
         trie.insert("their");
         trie.insert("there");
+        trie.insert("the");
         trie.insert("bye");
 
         Node currentNode = trie.getRoot();
@@ -36,6 +37,7 @@ public class Tests {
         } while (firstChild.getValue() != 'e');
 
         assert firstChild.getChildren().size() == 2;
+        assert firstChild.isEndOfWord();
 
         Node secondChild = currentNode.getChildren().get(1);
         do {
