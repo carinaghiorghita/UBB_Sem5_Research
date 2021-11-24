@@ -38,8 +38,7 @@ public class Main {
     public static void main(String[] args) {
         //runTests();
 
-        Trie trie = loadTrieFromFile("src/ubb/research/Resources/keys_small_test.txt");
-        System.out.println(trie.getAllWords());
+        Trie trie = loadTrieFromFile("src/ubb/research/Resources/1000_words.txt");
 
         SpellCheck spellCheck = new SpellCheck(trie);
 
