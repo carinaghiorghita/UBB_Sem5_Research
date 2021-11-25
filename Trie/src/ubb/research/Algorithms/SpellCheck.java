@@ -22,7 +22,7 @@ public class SpellCheck {
         for (String word : words) {
             word = autocomplete(word, manualChoice);
             word = addWhitespace(word, manualChoice);
-            word = getByLED(word,2, manualChoice);
+            word = getByLED(word, 2, manualChoice);
             autocorrectedPhrase.add(word);
         }
 
@@ -38,7 +38,8 @@ public class SpellCheck {
             for (var i = 0; i < suggestedWords.size(); ++i) {
                 System.out.println((i + 1) + ". " + suggestedWords.get(i));
             }
-            System.out.println("0. " + word);
+            if(!suggestedWords.contains(word))
+                System.out.println("0. " + word);
             System.out.println("Your choice for autocompleting this word:");
 
             int option = new Scanner(System.in).nextInt();
@@ -68,7 +69,8 @@ public class SpellCheck {
                 System.out.println((i + 1) + ". " + suggestedWords.get(i));
             }
 
-            System.out.println("0. " + word);
+            if(!suggestedWords.contains(word))
+                System.out.println("0. " + word);
             System.out.println("Your choice for adding whitespace to this word:");
 
             int option = new Scanner(System.in).nextInt();
@@ -87,6 +89,8 @@ public class SpellCheck {
 
         List<String> suggestions = new ArrayList<>();
         Set<String> wordsInDictionary = dictionary.getAllWords();
+        if(wordsInDictionary.contains(word))
+            suggestions.add(word);
 
         for(String wordInDictionary : wordsInDictionary){
             if(getLED(word,wordInDictionary) <= maxLED)
@@ -100,7 +104,8 @@ public class SpellCheck {
                 System.out.println((i + 1) + ". " + suggestions.get(i));
             }
 
-            System.out.println("0. " + word);
+            if(!suggestions.contains(word))
+                System.out.println("0. " + word);
             System.out.println("Your choice after getting suggestions based on Levenshtein Edit Distance:");
 
             int option = new Scanner(System.in).nextInt();

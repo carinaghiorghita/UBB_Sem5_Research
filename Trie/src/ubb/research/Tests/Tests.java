@@ -12,6 +12,9 @@ public class Tests {
         testInsert();
         testSearch();
         testGetByPrefix();
+        testGetAll();
+
+        System.out.println("All tests passing");
     }
 
     private void testInsert() {
@@ -87,5 +90,22 @@ public class Tests {
         assert trie.getByPrefix("").size() == 4;
 
         System.out.println("Finish Test Get by Prefix\n");
+    }
+
+    private void testGetAll(){
+        System.out.println("Test Get All Words");
+
+        Trie trie = new Trie();
+
+        assert trie.getAllWords().size() == 0;
+
+        trie.insert("chin");
+        trie.insert("check");
+        trie.insert("cheque");
+        trie.insert("good");
+
+        assert trie.getAllWords().size() == 4;
+
+        System.out.println("Finish Test Get All Words\n");
     }
 }
