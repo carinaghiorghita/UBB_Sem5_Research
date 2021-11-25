@@ -1,6 +1,7 @@
 package ubb.research.Algorithms;
 
 import ubb.research.Model.Trie;
+import ubb.research.Utils.AlgorithmUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ public class SpellCheck {
 
     public String autocomplete(String word, boolean manualChoice) {
         List<String> suggestedWords = new ArrayList<>(dictionary.getByPrefix(word));
+        word = word.toLowerCase(Locale.ROOT);
 
         if(manualChoice) {
             System.out.println("Autocomplete: " + word);
@@ -87,21 +89,25 @@ public class SpellCheck {
         if (maxLED == 0)
             return word;
 
-        List<String> suggestions = new ArrayList<>();
+        List<AbstractMap.SimpleEntry<String, Integer>> suggestions = new ArrayList<>();
         Set<String> wordsInDictionary = dictionary.getAllWords();
-        if(wordsInDictionary.contains(word))
-            suggestions.add(word);
+
+        if(wordsInDictionary.contains(word.toLowerCase(Locale.ROOT)))
+            suggestions.add(new AbstractMap.SimpleEntry<>(word,0));
 
         for(String wordInDictionary : wordsInDictionary){
-            if(getLED(word,wordInDictionary) <= maxLED)
-                suggestions.add(wordInDictionary);
+            int LED = getLED(word,wordInDictionary);
+            if(LED <= maxLED)
+                suggestions.add(new AbstractMap.SimpleEntry<>(wordInDictionary, LED));
         }
+
+        suggestions.sort(new AlgorithmUtils.SortMap());
 
         if(manualChoice) {
             System.out.println("Suggest word using Levenshtein Edit Distance (max "+maxLED+"): "+word);
 
             for (var i = 0; i < suggestions.size(); ++i) {
-                System.out.println((i + 1) + ". " + suggestions.get(i));
+                System.out.println((i + 1) + ". " + suggestions.get(i).getKey());
             }
 
             if(!suggestions.contains(word))
@@ -112,9 +118,9 @@ public class SpellCheck {
 
             if (option == 0)
                 return word;
-            return suggestions.get(option - 1);
+            return suggestions.get(option - 1).getKey();
         }
-        suggestions.add(word);
-        return suggestions.get(0);
+        suggestions.add(new AbstractMap.SimpleEntry<>(word,0));
+        return suggestions.get(0).getKey();
     }
 }

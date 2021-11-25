@@ -1,9 +1,6 @@
 package ubb.research.Utils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class AlgorithmUtils {
@@ -29,5 +26,15 @@ public class AlgorithmUtils {
 
     public static int costOfSubstitution(char a, char b) {
         return a == b ? 0 : 1;
+    }
+
+    public static class SortMap implements Comparator<AbstractMap.SimpleEntry>
+    {
+        // Used for sorting in ascending order of
+        // roll number
+        public int compare(AbstractMap.SimpleEntry a, AbstractMap.SimpleEntry b)
+        {
+            return (Integer)a.getValue() - (Integer)b.getValue();
+        }
     }
 }

@@ -24,7 +24,7 @@ public class Main {
             reader = new BufferedReader(new FileReader(filename));
             String line = reader.readLine();
             while (line != null) {
-                trie.insert(line);
+                trie.insert(line.strip());
                 line = reader.readLine();
             }
             reader.close();
@@ -38,7 +38,9 @@ public class Main {
     public static void main(String[] args) {
         //runTests();
 
-        Trie trie = loadTrieFromFile("src/ubb/research/Resources/1000_words.txt");
+        //System.out.println("Start algorithm for 3000 words:");
+        //float startTime = System.nanoTime();
+        Trie trie = loadTrieFromFile("src/ubb/research/Resources/3000_words.txt");
 
         SpellCheck spellCheck = new SpellCheck(trie);
 
@@ -59,6 +61,9 @@ public class Main {
                 case 2 -> System.out.println(spellCheck.autocorrect(phrase, false));
                 default -> System.out.println("Invalid option");
             }
+//            float endTime = System.nanoTime();
+//            float totalTime = (endTime-startTime)/1000000000;
+//            System.out.println("Finish algorithm; Execution took "+totalTime+" seconds");
         }
         while (true);
     }

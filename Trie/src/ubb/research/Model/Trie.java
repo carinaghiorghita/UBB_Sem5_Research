@@ -1,5 +1,7 @@
 package ubb.research.Model;
 
+import ubb.research.Utils.TrieUtils;
+
 import java.util.*;
 
 import static ubb.research.Utils.TrieUtils.traverse;
@@ -17,7 +19,7 @@ public class Trie {
         var currentIndex = 0;
 
         while (currentIndex < length) {
-            var currentCharacter = key.charAt(currentIndex);
+            var currentCharacter = Character.toLowerCase(key.charAt(currentIndex));
 
             var children = currentNode.getChildren();
             var isFound = false;
@@ -68,7 +70,7 @@ public class Trie {
         return currentNode.isEndOfWord();
     }
 
-    public Set<String> getByPrefix(String prefix) {
+    public List<String> getByPrefix(String prefix) {
         prefix = prefix.toLowerCase(Locale.ROOT);
 
         Set<String> wordsWithPrefix = new HashSet<>();
@@ -89,7 +91,7 @@ public class Trie {
                     break;
                 }
             if(!isFound){
-                return wordsWithPrefix;
+                return new ArrayList<>(wordsWithPrefix);
             }
 
             currentIndex++;
@@ -99,8 +101,10 @@ public class Trie {
             wordsWithPrefix.add(prefix);
 
         //use DFS to get the words
-        wordsWithPrefix = traverse(currentNode, prefix);
-        return wordsWithPrefix;
+        wordsWithPrefix.addAll(traverse(currentNode, prefix));
+        ArrayList<String> wordList = new ArrayList<>(wordsWithPrefix);
+        wordList.sort(new TrieUtils.SortString());
+        return wordList;
     }
 
     public Set<String> getAllWords(){

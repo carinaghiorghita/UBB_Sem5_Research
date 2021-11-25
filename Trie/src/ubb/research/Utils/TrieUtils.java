@@ -16,6 +16,8 @@ public class TrieUtils {
         }
 
         var results = new HashSet<String>();
+        if(node.isEndOfWord())
+            results.add(word);
 
         for(Node child : node.getChildren()){
             results.addAll(traverse(child, word + Character.toLowerCase(child.getValue())));
@@ -24,4 +26,10 @@ public class TrieUtils {
         return results;
     }
 
+    public static class SortString implements java.util.Comparator<String> {
+
+        public int compare(String s1, String s2) {
+            return s1.length() - s2.length();
+        }
+    }
 }
