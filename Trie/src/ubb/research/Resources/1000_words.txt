@@ -159,7 +159,7 @@ claim
 class
 clear
 clearly
-close
+clock
 coach
 cold
 collection

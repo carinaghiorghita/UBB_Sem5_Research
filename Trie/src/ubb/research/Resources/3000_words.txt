@@ -806,6 +806,7 @@ dog
 domestic
 dominant
 dominate
+done
 door
 double
 doubt
@@ -1427,7 +1428,7 @@ involvement
 Iraqi
 Irish
 iron
-Islamic
+is
 island
 Israeli
 issue
@@ -2328,6 +2329,7 @@ scream
 screen
 script
 sea
+seas
 search
 season
 seat
